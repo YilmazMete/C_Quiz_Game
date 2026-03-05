@@ -8,8 +8,8 @@ A simple console quiz game written in C to practice core language concepts such 
 
 ## Compile and Run
 ```bash
-gcc quizGame.c -o quizGame
-./quiz game
+gcc src/quiz_game.c -o quiz_game
+./quiz_game
 ```
 ## Concepts Practiced
 - Structs
