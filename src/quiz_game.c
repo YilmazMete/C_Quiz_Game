@@ -131,4 +131,5 @@ char getInput(const Test quiz[], const int i)
 bool checkAnswer(const Test quiz[], const int i, char answer)
 {
     return (quiz[i].correct == answer);
+
 }
