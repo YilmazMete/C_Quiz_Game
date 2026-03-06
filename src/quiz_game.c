@@ -1,79 +1,91 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <stdbool.h>
+#include <string.h>
 
 typedef struct{
-    char *question;
-    char *choices[4];
+    char question[100];
+    unsigned char choice_count;
+    char choices[4][50];
     char correct;
     unsigned char points;
-    unsigned char choice_count;
 }Test;
 
 void runQuiz(const Test[], const int);
 void printQuestion(const Test[], const int);
 char getInput(const Test[], const int);
 bool checkAnswer(const Test[], const int, char);
+int loadQuestions(const char*, Test[]);
+void removeNewLine(char[]);
 
 int main()
 {
-    Test quiz[] = {
-        {
-            "What's the largest planet?",
-            {"Mercury", "Jupiter", "Saturn", "Neptune"},
-            'B',
-            5,
-            4
-        },
-        {
-            "What's the smallest planet?",
-            {"Earth", "Venus", "Mercury", "Mars"},
-            'C',
-            10,
-            4
-        },
-        {
-            "Which of the below is red?",
-            {"The Sun", "An apple", "The sea", "Coffee"},
-            'B',
-            5,
-            4
-        },
-        {
-            "Is a person who is 20 an adult?",
-            {"Yes", "No"},
-            'A',
-            5,
-            2
-        },
-        {
-            "What is the capital of Germany?",
-            {"Berlin", "Munich", "Frankfurt", "Hamburg"},
-            'A',
-            5,
-            4
-        },
-        {
-            "Is the Earth flat?",
-            {"Yes", "No"},
-            'B',
-            5,
-            2
-        },
-        {
-            "How many bits are in one byte?",
-            {"4", "8", "16", "32"},
-            'B',
-            5,
-            4
-        }
-    };
-    
-    int quiz_size = sizeof(quiz) / sizeof(quiz[0]);
-
+    Test quiz[50];
+    int quiz_size = loadQuestions("quiz.txt", quiz);
+    if(quiz_size == 0) return 1;
     runQuiz(quiz, quiz_size);
     
     return 0;
+}
+
+void removeNewLine(char str[]){
+    str[strcspn(str, "\n")] = '\0';
+}
+
+int loadQuestions(const char *filename, Test quiz[])
+{
+    FILE *pFile = fopen(filename, "r");
+    if(pFile == NULL){
+        printf("Error opening file...");
+        return 0;
+    }
+
+    int i = 0;
+    char buffer[1024];
+
+    while(i < 50)
+    {
+        /*Read Question from the File*/
+        if(fgets(quiz[i].question, sizeof(quiz[i].question), pFile) == NULL)
+            break;
+        removeNewLine(quiz[i].question);
+
+        /*Read Choice Count from the File*/
+        if(fgets(buffer, sizeof(buffer), pFile) == NULL)
+            break;
+        removeNewLine(buffer);
+        sscanf(buffer, "%hhu", &quiz[i].choice_count);
+
+        /*Read Choices from the File for (Choice Count) Times*/
+        for(int j = 0; j < quiz[i].choice_count; j++)
+        {
+            if(fgets(quiz[i].choices[j], sizeof(quiz[i].choices[j]), pFile) == NULL)
+                break;
+            removeNewLine(quiz[i].choices[j]);
+        }
+
+        /*Read the Correct Answer from the File*/
+        if(fgets(buffer, sizeof(buffer), pFile) == NULL)
+            break;
+        removeNewLine(buffer);
+        quiz[i].correct = buffer[0];
+
+        /*Read the Point Value of the Question from the File*/
+        if(fgets(buffer, sizeof(buffer), pFile) == NULL)
+            break;
+        removeNewLine(buffer);
+        sscanf(buffer, "%hhu", &quiz[i].points);
+
+        /*Read the Separator and Do Nothing with It*/
+        if(fgets(buffer, sizeof(buffer), pFile) == NULL)
+            break;
+
+        i++;
+    }
+
+    fclose(pFile);
+    return i;
+
 }
 
 void runQuiz(const Test quiz[], const int quiz_size)
@@ -131,5 +143,4 @@ char getInput(const Test quiz[], const int i)
 bool checkAnswer(const Test quiz[], const int i, char answer)
 {
     return (quiz[i].correct == answer);
-
 }
