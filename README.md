@@ -1,5 +1,6 @@
 # C_Quiz_Game
-A simple console quiz game written in C to practice core language concepts such as structs, pointers, and functions.
+A simple console quiz game written in C to practice core language concepts such as structs, pointers, and functions.  
+Questions are loaded from an external `quiz.txt` file.
 
 ## Features
 - Multiple choice questions
