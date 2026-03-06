@@ -1,0 +1,61 @@
+What's the largest planet?
+4
+Mercury
+Jupiter
+Saturn
+Neptune
+B
+10
+---
+Which country has the largest population in the world (2025)?
+3
+India
+China
+United States
+A
+15
+---
+Which ocean is the largest on Earth?
+4
+Atlantic Ocean
+Indian Ocean
+Pacific Ocean
+Arctic Ocean
+C
+10
+---
+What is the capital of Germany?
+4
+Berlin
+Munich
+Frankfurt
+Hamburg
+A
+5
+---
+How many bits are in one byte?
+4
+4
+8
+16
+32
+B
+10
+---
+What's the first name of ... Epstein?
+3
+Jack
+Jeffrey
+Joshua
+B
+3
+---
+Which country is famous for the pyramids of Giza?
+4
+Mexico
+Jordan
+Peru
+Egypt
+D
+7
+---
