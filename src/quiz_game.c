@@ -21,7 +21,7 @@ void removeNewLine(char[]);
 int main()
 {
     Test quiz[50];
-    int quiz_size = loadQuestions("quiz.txt", quiz);
+    int quiz_size = loadQuestions("data/quiz.txt", quiz);
     if(quiz_size == 0) return 1;
     runQuiz(quiz, quiz_size);
     
@@ -144,3 +144,4 @@ bool checkAnswer(const Test quiz[], const int i, char answer)
 {
     return (quiz[i].correct == answer);
 }
+
